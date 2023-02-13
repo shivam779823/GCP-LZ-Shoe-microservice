@@ -1,0 +1,55 @@
+name: 'terraform-ci'
+on:
+  push:
+    branches:
+      - main
+      - coe-dev
+  pull_request:
+    branches:
+      - main
+      - coe-dev
+    
+jobs:
+  terraform:
+    name: 'terraform'
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+
+    - name: Terraform Format
+      id: fmt
+      run: terraform fmt 
+
+    - name: Terraform Init
+      id: init
+      run: terraform init  
+
+    - name: Terraform Validate
+      id: validate
+      run: terraform validate
+
+    - name: Terrascan
+      id: terrascan
+      uses: tenable/terrascan-action@main
+      with:
+        iac_type: 'terraform'
+        iac_version: 'v14'
+        policy_type: 'gcp'
+        iac_dir: '.'
+        only_warn: false 
+ 
+
+    - name: Terraform Plan 
+      id: plan
+      run: terraform plan -no-color -input=
+      continue-on-error: true 
+     
+
+    
+
+    
+      
