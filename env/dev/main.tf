@@ -131,7 +131,7 @@ resource "google_compute_router_nat" "nat" {
   nat_ip_allocate_option             = "MANUAL_ONLY"
 
   subnetwork {
-    name                    = module.subnet.subnets[0]["subnet_name"]
+    name                    = "subnet-01"
     source_ip_ranges_to_nat = ["ALL_IP_RANGES"]
   }
 
@@ -203,7 +203,7 @@ resource "google_container_cluster" "primary" {
   remove_default_node_pool = true
   initial_node_count       = 1
   network                  = module.main-vpc.vpc.self_link
-  subnetwork               = module.subnet.subnets[0]["subnet_name"].self_link
+  subnetwork               = "subnet-01"
   logging_service          = "logging.googleapis.com/kubernetes"
   monitoring_service       = "monitoring.googleapis.com/kubernetes"
   networking_mode          = "VPC_NATIVE"

@@ -1,3 +1,3 @@
-region    = "us-central1-a"
+region    = "us-central1"
 projectid = "sed"
 cluster = "test"
