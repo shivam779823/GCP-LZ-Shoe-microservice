@@ -3,11 +3,11 @@ on:
   push:
     branches:
       - main
-      - coe-dev
+      - test
   pull_request:
     branches:
       - main
-      - coe-dev
+      - test
     
 jobs:
   terraform:
