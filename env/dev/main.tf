@@ -85,13 +85,7 @@ module "subnet" {
   project_id   = var.projectid
   network_name = module.main-vpc.vpc.self_link
 
-  subnets = [{
-    subnet_name           = "subnet-01"
-    subnet_region         = "us-central1"
-    subnet_ip             = "10.10.20.0/24"
-    subnet_flow_logs      = "false"
-    subnet_private_access = "true"
-  }]
+  subnets = var.subnets
 
    secondary_ranges = {
         subnet-01 = [
@@ -133,7 +127,7 @@ resource "google_compute_router_nat" "nat" {
   nat_ip_allocate_option             = "MANUAL_ONLY"
 
   subnetwork {
-    name                    = "subnet-01"
+    name                    = var.subnets[0]["subnet_name"]
     source_ip_ranges_to_nat = ["ALL_IP_RANGES"]
   }
 
@@ -205,7 +199,7 @@ resource "google_container_cluster" "primary" {
   remove_default_node_pool = true
   initial_node_count       = 1
   network                  = module.main-vpc.vpc.self_link
-  subnetwork               = "subnet-01"
+  subnetwork               =  var.subnets[0]["subnet_name"]
   logging_service          = "logging.googleapis.com/kubernetes"
   monitoring_service       = "monitoring.googleapis.com/kubernetes"
   networking_mode          = "VPC_NATIVE"
