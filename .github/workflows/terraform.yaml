@@ -41,6 +41,12 @@ jobs:
         policy_type: 'gcp'
         iac_dir: '.'
         only_warn: false 
+    
+    - name: SonarCloud Scan
+      uses: SonarSource/sonarcloud-github-action@master
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}   
  
 
     - name: Terraform Plan 
