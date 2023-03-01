@@ -49,6 +49,14 @@ jobs:
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}   
+          
+    - name: SonarQube Quality Gate check
+      id: sonarqube-quality-gate-check
+      uses: sonarsource/sonarqube-quality-gate-action@master
+      # Force to fail step after specific time.
+      timeout-minutes: 1
+      env:
+       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}      
  
 
     - name: Terraform Plan 
